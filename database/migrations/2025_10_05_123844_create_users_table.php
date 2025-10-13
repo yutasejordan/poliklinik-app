@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('name');
             $table->string('alamat')->nullable();
             $table->foreignId("id_poli")->nullable()->constrained("poli")->cascadeOnDelete();
             $table->string('no_ktp')->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('no_rm', 25)->nullable();
             $table->enum("role", ["pasien", "dokter", "admin"]);
             $table->string('email')->unique();
-            // $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
