@@ -49,7 +49,7 @@ class JadwalPeriksaController extends Controller
     {
         $jadwalPeriksa = JadwalPeriksa::findOrFail($id);
         
-        return view("dokter.jadwal-periksa.edit", compact("jadwalPeriksa"));
+        return view("admin.dokter.jadwal-periksa.edit", compact("jadwalPeriksa"));
     }
 
     public function update(Request $request, string $id)
