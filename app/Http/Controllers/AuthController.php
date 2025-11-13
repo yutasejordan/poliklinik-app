@@ -44,11 +44,20 @@ class AuthController extends Controller
             "password" => ["required", "confirmed"]
         ]);
 
+        if (User::where("no_ktp", $request->no_ktp)->exist()) {
+            return back()->withErrors(["no_ktp" => "Nomor KTP sudah terdaftar"]);
+        }
+
+        $no_rm = date("Ym") . "-" . str_pad(
+            User::where("no_rm", "like", date("Ym") . "-%")->count() + 1, 3, "0", STR_PAD_LEFT
+        );
+
         User::create([
             "name" => $request->nama,
             "alamat" => $request->alamat,
             "no_ktp" => $request->no_ktp,
             "no_hp" => $request->no_hp,
+            "no_rm" => $no_rm,
             "email" => $request->email,
             "password" => Hash::make($request->password),
             "role" => "pasien"
@@ -61,9 +70,11 @@ class AuthController extends Controller
     {
         Auth::logout(); 
 
-        $request->session()->invalidate(); 
-        $request->session()->regenerateToken();
+        // $request->session()->invalidate(); 
+        // $request->session()->regenerateToken();
 
-        return redirect('/login')->with('success', 'Berhasil logout.');
+        // return redirect('/login')->with('success', 'Berhasil logout.');
+
+        return redirect()->route("login");
     }
 }
